@@ -53,7 +53,10 @@ def get_ai_response_openai(question):
                 "X-Title": "Ask Dad AI"
             }
         )
-        return response.choices[0].message.content
+        if response and response.choices and response.choices[0].message.content:
+            return response.choices[0].message.content
+        else:
+            return "Hmm... I couldn't get a good answer from my AI friend."
     except Exception as e:
         return f"AI error: {e}"
 
@@ -84,11 +87,14 @@ if st.button("✨ Go!"):
 
         # Draw
         if option in ["🎨 Just draw", "💡 Do both"]:
-            with st.spinner("Drawing your idea... 🖌️"):
-                image_data, error = generate_drawing_with_stability(response_text)
-                if image_data:
-                    st.image(image_data, caption="Your AI drawing! 🎨")
-                    play_success_sound()
-                    st.balloons()
-                else:
-                    st.error(f"❌ Drawing failed: {error}")
+            if response_text and "AI error" not in response_text:
+                with st.spinner("Drawing your idea... 🖌️"):
+                    image_data, error = generate_drawing_with_stability(response_text)
+                    if image_data:
+                        st.image(image_data, caption="Your AI drawing! 🎨")
+                        play_success_sound()
+                        st.balloons()
+                    else:
+                        st.error(f"❌ Drawing failed: {error}")
+            else:
+                st.error("❗ I need a real answer first before I can draw something!")
