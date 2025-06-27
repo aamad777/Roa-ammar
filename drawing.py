@@ -8,7 +8,7 @@ load_dotenv()
 def generate_drawing_with_stability(prompt):
     stability_api_key = os.getenv("STABILITY_API_KEY")
     if not stability_api_key:
-        return None, "Missing STABILITY_API_KEY"
+        return None
 
     try:
         response = requests.post(
@@ -21,8 +21,8 @@ def generate_drawing_with_stability(prompt):
             json={
                 "text_prompts": [{"text": prompt}],
                 "cfg_scale": 7,
-                "height": 1152,
-                "width": 896,
+                "height": 896,
+                "width": 1152,
                 "samples": 1,
                 "steps": 30
             },
@@ -30,13 +30,12 @@ def generate_drawing_with_stability(prompt):
 
         if response.status_code == 200:
             data = response.json()
-            if data.get("artifacts"):
-                base64_image = data["artifacts"][0]["base64"]
-                return base64.b64decode(base64_image), None
-            else:
-                return None, "No image returned"
+            base64_image = data["artifacts"][0]["base64"]
+            return base64.b64decode(base64_image)
         else:
-            return None, f"API error {response.status_code}: {response.text}"
+            print("Stability API error:", response.status_code, response.text)
+            return None
 
     except Exception as e:
-        return None, f"Exception: {str(e)}"
+        print("Drawing error:", e)
+        return None

@@ -1,4 +1,38 @@
-{
-  "why we go to mall?": "to buy food",
-  "why sky is blue?": "Hi Jana! That's a wonderful question! You know how when you're playing with your blue crayon, it looks blue because it's reflecting blue light? The sky is like that too! The sunlight that reaches Earth is made up of all the colors of the rainbow. When this light passes through the Earth's atmosphere, the blue light is scattered in all directions more than any other color because it travels in shorter, smaller waves. So, when we look up at the sky, we see it as blue! Isn't that cool? It's like Earth is using a blue crayon to color the sky for us."
-}
+[
+  {
+    "name": "Jana",
+    "question": "What is a cat?",
+    "answer": "Cats are cute furry animals that love to play!",
+    "timestamp": "2025-06-27 14:30:00"
+  },
+  {
+    "name": "jana",
+    "question": "why sky is blue?",
+    "answer": "because theres no cloud",
+    "timestamp": "2025-06-27 07:02:19"
+  },
+  {
+    "name": "jana",
+    "question": "why sky is blue?",
+    "answer": "because theres no cloud",
+    "timestamp": "2025-06-27 07:14:00"
+  },
+  {
+    "name": "jana",
+    "question": "why sky is blue?",
+    "answer": "because theres no cloud",
+    "timestamp": "2025-06-27 07:19:47"
+  },
+  {
+    "name": "jana",
+    "question": "why sky is blue?",
+    "answer": "because theres no cloud",
+    "timestamp": "2025-06-27 07:21:49"
+  },
+  {
+    "name": "jana",
+    "question": "cat",
+    "answer": "Hello Jana! Guess what? We have a fun game to play today called \"Cat's Cradle\"! Do you know how to make shapes with string or yarn? I'll show you how to make a simple cat's cradle shape, and then we can imagine all sorts of wonderful things together.\n\nFirst, let's find a piece of string about 2 feet long. Now, let's make a loop with the string and place it on your fingers like this (demonstrate or describe the basic loop). Now, let's make another loop and cross it over the first one. See? It looks like a little cat's cradle!\n\nNow, let's imagine that this cat's cradle is a magical forest. What kind of creatures do you think live in this forest? Maybe there's a friendly owl who can talk, or a squirrel who loves to dance. Let's pretend together and see where our imaginations take us!\n\nAfter we're done playing, we can draw pictures of the creatures we imagined and hang them up on the wall. Would you like to do that, Jana?\n\nAnd hey, who's your favorite cat? Maybe we can find a picture of one online and put it on our fridge too!",
+    "timestamp": "2025-06-27 09:14:32"
+  }
+]
