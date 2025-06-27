@@ -11,9 +11,3 @@ def get_animal_sound_file(question):
                 return path
     return None
 
-# Optional: play celebration sound (from previous features)
-def play_success_sound():
-    path = "static/sounds/success.mp3"
-    if os.path.exists(path):
-        with open(path, 'rb') as f:
-            st.audio(f.read(), format='audio/mp3')
