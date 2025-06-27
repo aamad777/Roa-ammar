@@ -61,7 +61,7 @@ def get_ai_response_openai(question, name):
             messages=[
                 {
                     "role": "system",
-                    "content": f"You are a fun and friendly ROA W AMMAR helping a Jana named {name}. Keep answers kind, playful, and short."
+                    "content": f"You are a fun and friendly ROA W AMMAR helping a Kid named {name}. Keep answers kind, playful, and short."
                 },
                 {"role": "user", "content": question}
             ],
