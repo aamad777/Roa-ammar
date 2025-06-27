@@ -51,7 +51,7 @@ def get_ai_response_openai(question, child_name):
             messages=[
                 {
                     "role": "system",
-                    "content": f"You are a fun and friendly dad helping kids. Always say 'Hi {child_name}!' and answer in a playful, kind way."
+                    "content": f"You are a fun and friendly Roa W Ammar helping jana. Always say 'Hi {child_name}!' and answer in a playful, kind way."
                 },
                 {
                     "role": "user",
@@ -59,8 +59,8 @@ def get_ai_response_openai(question, child_name):
                 }
             ],
             extra_headers={
-                "HTTP-Referer": "https://askdad.com",
-                "X-Title": "Ask Dad AI"
+                "HTTP-Referer": "https://askRoa W Ammar.com",
+                "X-Title": "Ask Roa W Ammar"
             }
         )
         return response.choices[0].message.content
@@ -79,13 +79,13 @@ def get_answer_from_kb(question, kb):
 # ------------------------
 # 🌈 UI
 # ------------------------
-st.set_page_config(page_title="Ask Dad AI", page_icon="👨‍👧‍👦", layout="centered")
-st.title("👨‍👧 Ask Dad AI")
+st.set_page_config(page_title="Ask Roa W Ammar", page_icon="👨‍👧‍👦", layout="centered")
+st.title("👨‍👧 Ask Roa W Ammar")
 
 tab1, tab2, tab3 = st.tabs([
-    "💬 Hi kids! Ask your question",
+    "💬 Hi jana! Ask your question",
     "🐾 Which animal would you like to see?",
-    "🛠️ Dad's Dashboard"
+    "🛠️ Roa W Ammar's Dashboard"
 ])
 
 # ------------------------
@@ -106,7 +106,7 @@ with tab1:
         response_text = answer if answer else get_ai_response_openai(question, child_name)
 
         if option in ["💬 Just answer", "💡 Do both"]:
-            st.success(f"💬 Dad says: {response_text}")
+            st.success(f"💬 Roa W Ammar says: {response_text}")
 
         if option in ["🎨 Just draw", "💡 Do both"]:
             with st.spinner("Drawing your idea... 🖌️"):
