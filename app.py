@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from openai import OpenAI
 from drawing import generate_drawing_with_stability
-from sound import get_animal_sound_file, play_success_sound
+from sound import get_animal_sound_file
 
 # 🧠 Session state init
 if "question" not in st.session_state:
@@ -97,7 +97,7 @@ if st.session_state.response_text and option in ["🎨 Just draw", "💡 Do both
             image_data, error = generate_drawing_with_stability(st.session_state.response_text)
             if image_data:
                 st.image(image_data, caption="Your AI drawing! 🎨")
-                play_success_sound()
+                
                 st.balloons()
             else:
                 st.error(f"❌ Drawing failed: {error}")
