@@ -154,10 +154,8 @@ with tab2:
             with st.spinner("Drawing your animal..."):
                 image = generate_drawing_with_stability(animal)
                 if image:
-                    if isinstance(image, list):
-                        st.image(image[0], caption=f"{animal.capitalize()} drawing!")
-                    else:
-                        st.image(image, caption=f"{animal.capitalize()} drawing!")
+                    st.session_state["animal_image"] = image
+                    st.session_state["last_drawn_animal"] = animal
                 else:
                     st.error("Could not draw the animal.")
 
@@ -171,6 +169,14 @@ with tab2:
                     st.audio(sound_bytes, format="audio/mp3")
                 else:
                     st.error("No sound available for that animal.")
+
+    # Show image if saved
+    if "animal_image" in st.session_state:
+        image = st.session_state["animal_image"]
+        if isinstance(image, list):
+            st.image(image[0], caption=f"{animal.capitalize()} drawing!")
+        else:
+            st.image(image, caption=f"{animal.capitalize()} drawing!")
 
 # TAB 3: Dashboard
 with tab3:
