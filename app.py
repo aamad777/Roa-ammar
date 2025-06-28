@@ -7,6 +7,7 @@ from openai import OpenAI
 from drawing import generate_drawing_with_stability
 from sound import play_animal_sound
 from dashboard import render_dashboard_tab
+from learn import render_learning_book_tab
 
 # Load environment variables
 load_dotenv()
@@ -21,6 +22,7 @@ client = OpenAI(
 # File paths
 QA_LOG = "qa_log.json"
 KB_FILE = "answers.json"
+BOOK_FILE = "learning_book.txt"
 
 # Make sure QA log exists
 if not os.path.exists(QA_LOG):
@@ -46,6 +48,22 @@ def load_qa_log_kb():
         st.warning(f"Couldn't load QA log: {e}")
         return {}
 
+# Load content from learning book if available
+def load_learning_book():
+    if os.path.exists(BOOK_FILE):
+        with open(BOOK_FILE, "r", encoding="utf-8") as f:
+            return f.read()
+    return ""
+
+# Search for matching content in the learning book
+def search_learning_book(question):
+    content = load_learning_book()
+    paragraphs = content.split("\n\n")
+    for para in paragraphs:
+        if question.lower() in para.lower():
+            return para.strip()
+    return None
+
 # Get match from knowledge base
 def get_answer_from_kb(question, kb):
     for q in kb:
@@ -61,7 +79,7 @@ def get_ai_response_openai(question, name):
             messages=[
                 {
                     "role": "system",
-                    "content": f"You are a fun and friendly ROA W AMMAR helping a Kid named {name}. Keep answers kind, playful, and short."
+                    "content": f"You are a fun and friendly ROA W AMMAR helping a Jana named {name}. Keep answers kind, playful, and short."
                 },
                 {"role": "user", "content": question}
             ],
@@ -97,36 +115,40 @@ def save_question_log(name, question, answer):
 # ----------------------------
 st.set_page_config(page_title="Ask ROA W AMMAR", page_icon="👨‍👧", layout="centered")
 
-tab1, tab2, tab3 = st.tabs(["💬 Hi Janas! Ask your question", "🐾 Which animal would you like to see?", "🛠️ ROA W AMMAR's Dashboard"])
+tab1, tab2, tab3, tab4 = st.tabs([
+    "💬 Hi Janas! Ask your question",
+    "🐾 Which animal would you like to see?",
+    "🛠️ ROA W AMMAR's Dashboard",
+    "📚 Learning Book"
+])
 
 # TAB 1: Ask ROA W AMMAR
 with tab1:
     st.title("👨‍👧 Ask ROA W AMMAR")
 
     child_name = st.text_input("🙋 What's your name?", key="child_name")
-
     question = st.text_input("What do you want to ask?", key="question_input")
-
     mode = st.radio("What do you want to do?", ["💬 Just answer", "🎨 Just draw", "💡 Do both"])
 
     if st.button("✨ Go!", key="ask_btn"):
         if not child_name or not question:
             st.warning("Please enter your name and a question.")
         else:
-            kb1 = load_answers_kb()
-            kb2 = load_qa_log_kb()
-            kb = {**kb1, **kb2}
-
-            answer = get_answer_from_kb(question, kb)
-            if answer:
-                response = f"ROA W AMMAR says: {answer}"
+            book_answer = search_learning_book(question)
+            if book_answer:
+                answer = book_answer
             else:
-                answer = get_ai_response_openai(question, child_name)
-                response = f"ROA W AMMAR says: {answer}"
-                save_question_log(child_name, question, answer)
+                kb1 = load_answers_kb()
+                kb2 = load_qa_log_kb()
+                kb = {**kb1, **kb2}
+                answer = get_answer_from_kb(question, kb)
+
+                if not answer:
+                    answer = get_ai_response_openai(question, child_name)
+                    save_question_log(child_name, question, answer)
 
             if mode in ["💬 Just answer", "💡 Do both"]:
-                st.success(response)
+                st.success(f"ROA W AMMAR says: {answer}")
 
             if mode in ["🎨 Just draw", "💡 Do both"]:
                 with st.spinner("Drawing something fun... 🎨"):
@@ -144,7 +166,6 @@ with tab2:
     st.title("🐾 Pick an animal!")
 
     animal = st.text_input("Which animal do you like?", key="animal_input")
-
     col1, col2 = st.columns(2)
 
     if col1.button("🎨 Draw this animal"):
@@ -170,7 +191,6 @@ with tab2:
                 else:
                     st.error("No sound available for that animal.")
 
-    # Show image if saved
     if "animal_image" in st.session_state:
         image = st.session_state["animal_image"]
         if isinstance(image, list):
@@ -181,3 +201,7 @@ with tab2:
 # TAB 3: Dashboard
 with tab3:
     render_dashboard_tab()
+
+# TAB 4: Learning Book Upload
+with tab4:
+    render_learning_book_tab()
