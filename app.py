@@ -2,12 +2,15 @@ import streamlit as st
 import json
 import os
 from datetime import datetime
+import random
 from dotenv import load_dotenv
 from openai import OpenAI
 from drawing import generate_drawing_with_stability
 from sound import play_animal_sound
 from dashboard import render_dashboard_tab
 from learn import render_learning_book_tab
+
+from kid_feedback import send_email_to_dad
 
 # Load environment variables
 load_dotenv()
@@ -122,44 +125,75 @@ tab1, tab2, tab3, tab4 = st.tabs([
     "📚 Learning Book"
 ])
 
+
+
 # TAB 1: Ask ROA W AMMAR
 with tab1:
     st.title("👨‍👧 Ask ROA W AMMAR")
 
-    child_name = st.text_input("🙋 What's your name?", key="child_name")
-    question = st.text_input("What do you want to ask?", key="question_input")
-    mode = st.radio("What do you want to do?", ["💬 Just answer", "🎨 Just draw", "💡 Do both"])
+    st.text_input("🙋 What's your name?", key="child_name")
+    st.text_input("What do you want to ask?", key="question_input")
+    st.radio("What do you want to do?", ["💬 Just answer", "🎨 Just draw", "💡 Do both"], key="mode")
 
     if st.button("✨ Go!", key="ask_btn"):
-        if not child_name or not question:
+        if not st.session_state.child_name or not st.session_state.question_input:
             st.warning("Please enter your name and a question.")
         else:
-            book_answer = search_learning_book(question)
-            if book_answer:
-                answer = book_answer
-            else:
-                kb1 = load_answers_kb()
-                kb2 = load_qa_log_kb()
-                kb = {**kb1, **kb2}
-                answer = get_answer_from_kb(question, kb)
+            st.session_state.ask_triggered = True
 
-                if not answer:
-                    answer = get_ai_response_openai(question, child_name)
-                    save_question_log(child_name, question, answer)
+    if st.session_state.get("ask_triggered"):
+        child_name = st.session_state.child_name
+        question = st.session_state.question_input
+        mode = st.session_state.mode
 
-            if mode in ["💬 Just answer", "💡 Do both"]:
-                st.success(f"ROA W AMMAR says: {answer}")
+        book_answer = search_learning_book(question)
+        if book_answer:
+            answer = book_answer
+        else:
+            kb1 = load_answers_kb()
+            kb2 = load_qa_log_kb()
+            kb = {**kb1, **kb2}
+            answer = get_answer_from_kb(question, kb)
+            if not answer:
+                answer = get_ai_response_openai(question, child_name)
+                save_question_log(child_name, question, answer)
 
-            if mode in ["🎨 Just draw", "💡 Do both"]:
-                with st.spinner("Drawing something fun... 🎨"):
-                    image = generate_drawing_with_stability(question)
-                    if image:
-                        if isinstance(image, list):
-                            st.image(image[0], caption="Your drawing!")
-                        else:
-                            st.image(image, caption="Your drawing!")
-                    else:
-                        st.error("Oops! Couldn't draw right now. Try again!")
+        if mode in ["💬 Just answer", "💡 Do both"]:
+            st.success(f"ROA W AMMAR says: {answer}")
+
+            with st.form(key=f"{child_name}_{question}_form"):
+                col1, col2 = st.columns(2)
+                yes = col1.form_submit_button("👍 I understand it!")
+                no = col2.form_submit_button("👎 I don't understand")
+
+                if yes:
+                    a, b = random.randint(1, 3), random.randint(1, 3)
+                    st.session_state[f"{child_name}_{question}_quiz"] = f"🍌 What is {a} + {b}?"
+
+                if no:
+                    sent, debug = send_email_to_dad(child_name, question)
+                    st.session_state[f"{child_name}_{question}_sent"] = sent
+                    st.session_state[f"{child_name}_{question}_debug"] = debug
+
+            quiz_key = f"{child_name}_{question}_quiz"
+            if quiz_key in st.session_state:
+                st.info(st.session_state[quiz_key])
+
+            result_key = f"{child_name}_{question}_sent"
+            if result_key in st.session_state:
+                if st.session_state[result_key]:
+                    st.success("📧 Email sent to Dad!")
+                else:
+                    st.error("⚠️ Failed to send email.")
+                st.code(st.session_state.get(f"{child_name}_{question}_debug", "No debug"))
+
+        if mode in ["🎨 Just draw", "💡 Do both"]:
+            with st.spinner("Drawing something fun... 🎨"):
+                image = generate_drawing_with_stability(question)
+                if image:
+                    st.image(image if not isinstance(image, list) else image[0], caption="Your drawing!")
+                else:
+                    st.error("Oops! Couldn't draw right now. Try again!")
 
 # TAB 2: Animal Sound and Drawing
 with tab2:
