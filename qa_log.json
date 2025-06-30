@@ -36,27 +36,33 @@
     "timestamp": "2025-06-27 11:04:37"
   },
   {
+    "name": "oody",
+    "question": "where is  soap boat ?",
+    "answer": "Oh, the Soap Boat is sailing around the colorful islands of Sudsy Seas! Maybe it's near Bubble Bay or Splish Splash Cove. Want to join the adventure? \ud83d\ude0a\ud83d\udea4\ud83c\udf0a",
+    "timestamp": "2025-06-27 11:40:46"
+  },
+  {
     "name": "jana",
     "question": "why the Rabbit was scared?",
     "answer": "Oh, Jana! Maybe the rabbit heard a loud noise or saw a big shadow. sometimes even the tiniest things can startle our furry friends! \ud83d\udc30\ud83d\udca8",
     "timestamp": "2025-06-27 23:56:06"
   },
   {
-    "name": "bobo",
-    "question": "7+9",
-    "answer": "Hello BOBO! Let's add some fun to your day! 7 + 9 equals 16. Isn't that fabulous? \ud83d\ude03",
-    "timestamp": "2025-06-29 06:29:46"
+    "name": "panda",
+    "question": "1+4=?",
+    "answer": "Hello Panda! The sum of 1 and 4 is 5. So, 1 + 4 = 5. Let me know if you need help with anything else! \ud83d\ude0a",
+    "timestamp": "2025-06-30 10:40:08"
   },
   {
-    "name": "bobo",
-    "question": "7+9",
-    "answer": "Hello there, bobo! Want to know a fun secret? Just add the numbers together like this: 7 + 9 = 16. You did it! \ud83c\udf89",
-    "timestamp": "2025-06-29 06:29:48"
+    "name": "jojo",
+    "question": "1+2",
+    "answer": "Sure, let's help Jojo with that! The sum of 1 + 2 is 3. Well done, Jojo! Keep up the good work! \ud83d\ude0a\ud83d\udc4d",
+    "timestamp": "2025-06-30 10:45:11"
   },
   {
-    "name": "bobo",
-    "question": "tell me story about Black Rabbit",
-    "answer": "Once upon a time, in a lush green forest, there lived a playful black rabbit named Benny. Benny was known far and wide for his swiftness and agility. One day, he stumbled upon a magical, shimmering door. Curious, he hopped through it and found himself in a world of candy! \ud83c\udf6d\ud83c\udf6c\ud83c\udf6d There were rivers of chocolate, fields of lollipops, and trees filled with gumdrop fruits. Benny's adventures in Candy Land were filled with laughter, new friends, and of course, lots of sweet treats! The end. \ud83c\udf6d\ud83d\udc07\ud83c\udf6d",
-    "timestamp": "2025-06-29 06:30:20"
+    "name": "jojo",
+    "question": "1+2",
+    "answer": "The sum of 1 + 2 is 3. Well done, Jojo!",
+    "timestamp": "2025-06-30 10:45:13"
   }
 ]
